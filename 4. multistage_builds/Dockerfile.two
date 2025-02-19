@@ -1,0 +1,26 @@
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY tsconfig.json package.json package-lock.json ./
+COPY src ./src
+RUN npm install
+RUN npm run build
+
+FROM gcr.io/distroless/nodejs22-debian12
+# FROM gcr.io/distroless/nodejs22-debian12:debug
+
+WORKDIR /app
+COPY package.json ./
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+
+ENV PORT=3004
+ENV VERSION=1.2.3.4
+
+CMD ["dist/index.js"]
+# CMD [""]
+
+
+# docker build -t twostage -f Dockerfile.two .
+# docker run -p 3004:3004 twostage
+# docker run -p 3004:3004 -it --entrypoint=sh twostage
+# https://github.com/GoogleContainerTools/distroless?tab=readme-ov-file
