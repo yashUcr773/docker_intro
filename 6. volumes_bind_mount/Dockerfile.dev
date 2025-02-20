@@ -1,0 +1,15 @@
+FROM node:22-alpine AS build
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "start"]
+
+# docker build -t dev_build -f Dockerfile.dev .
+# docker run -d --rm -p 3000:3000 dev_build
+# run in powershell
+# docker run -p 3000:3000 -v ${pwd}/public:/app/public -v ${pwd}/src:/app/src -e CHOKIDAR_USEPOLLING=true -e WATCHPACK_POLLING=true dev_build
