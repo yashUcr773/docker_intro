@@ -1,0 +1,21 @@
+FROM node:22.12.0-alpine AS build
+
+WORKDIR /app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+
+FROM nginx
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# docker build -t vite:build -f Dockerfile.build .
+# docker run --rm -it vite:build sh
+# docker run --rm -d -p 80:80 vite:build
