@@ -1,97 +1,71 @@
-import express from 'express';
-
-const app = express();
-
-app.use(express.json());
-
-const store: Record<string, string> = {};
-
-app.get('/', (req, res) => {
-    res.status(200).json(store);
-    return
-});
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+const store = {};
 app.post('/', (req, res) => {
-    const body = req.body as { key: string; value: string };
+    const body = req.body;
     const { key, value } = body;
-
     if (!key || !value) {
         res.status(400).send('Key or Value Missing!');
-        return
+        return;
     }
-
     if (store[key]) {
         res.status(400).send('Key Exists!');
-        return
+        return;
     }
-
-    store[key] = value
-
+    store[key] = value;
     res.status(201).send('Key added Successfully!');
-    return
-
+    return;
 });
-
 app.get('/:key', (req, res) => {
-    const params = req.params as { key: string; };
+    const params = req.params;
     const { key } = params;
-
     if (!key) {
         res.status(400).send('Key Missing!');
-        return
+        return;
     }
-
     if (store[key]) {
         res.status(200).json({ key, value: store[key] });
-        return
+        return;
     }
-
     res.status(404).send('Key not Found!');
-    return
-
+    return;
 });
-
 app.put('/:key', (req, res) => {
-    const params = req.params as { key: string; };
+    const params = req.params;
     const { key } = params;
-
-    const body = req.body as { value: string; };
+    const body = req.body;
     const { value } = body;
-
     if (!key || !value) {
         res.status(400).send('Key or Value Missing!');
-        return
+        return;
     }
-
     if (store[key]) {
-        store[key] = value
+        store[key] = value;
         res.status(200).json({ key, value: store[key] });
-        return
+        return;
     }
-
     res.status(404).send('Key not Found!');
-    return
-
+    return;
 });
-
 app.delete('/:key', (req, res) => {
-    const params = req.params as { key: string; };
+    const params = req.params;
     const { key } = params;
-
     if (!key) {
         res.status(400).send('Key Missing!');
-        return
+        return;
     }
-
     if (store[key]) {
-        delete store[key]
-        res.status(204).send('Deleted!');
-        return
+        delete store[key];
+        res.status(204);
+        return;
     }
-
     res.status(404).send('Key not Found!');
-    return
-
+    return;
 });
-
-export default app;
+exports.default = app;
