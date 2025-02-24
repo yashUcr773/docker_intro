@@ -1,5 +1,8 @@
 import express from 'express';
+import mongoose from 'mongoose'
 import store from './store';
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,6 +19,20 @@ app.get('/health', (req, res) => {
     res.status(200).send('Up');
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+
+
+
+mongoose.connect(`mongodb://mongodb/${process.env.KEY_VALUE_DB}`, {
+    auth: {
+        username: process.env.KEY_VALUE_USER,
+        password: process.env.KEY_VALUE_PASSWORD
+    },
+    connectTimeoutMS: 500
+})
+    .then(() => {
+        console.log('connected to db')
+        app.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
+    })
+    .catch((e) => console.log('error connecting to DB', e))

@@ -26,4 +26,4 @@ ENV PORT=4000
 CMD ["npm", "start"]
 
 # docker build -f Dockerfile.express -t express:build .
-# docker run -p 3000:4000 express:build
+# docker run -p 3000:4000 --network key-value-network express:build
