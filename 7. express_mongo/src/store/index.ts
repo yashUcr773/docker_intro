@@ -1,17 +1,14 @@
 import express from 'express';
 
-const app = express();
-
-app.use(express.json());
-
+const storeRouter = express.Router();
 const store: Record<string, string> = {};
 
-app.get('/', (req, res) => {
+storeRouter.get('/', (req, res) => {
     res.status(200).json(store);
     return
 });
 
-app.post('/', (req, res) => {
+storeRouter.post('/', (req, res) => {
     const body = req.body as { key: string; value: string };
     const { key, value } = body;
 
@@ -32,7 +29,7 @@ app.post('/', (req, res) => {
 
 });
 
-app.get('/:key', (req, res) => {
+storeRouter.get('/:key', (req, res) => {
     const params = req.params as { key: string; };
     const { key } = params;
 
@@ -51,7 +48,7 @@ app.get('/:key', (req, res) => {
 
 });
 
-app.put('/:key', (req, res) => {
+storeRouter.put('/:key', (req, res) => {
     const params = req.params as { key: string; };
     const { key } = params;
 
@@ -74,7 +71,7 @@ app.put('/:key', (req, res) => {
 
 });
 
-app.delete('/:key', (req, res) => {
+storeRouter.delete('/:key', (req, res) => {
     const params = req.params as { key: string; };
     const { key } = params;
 
@@ -94,4 +91,4 @@ app.delete('/:key', (req, res) => {
 
 });
 
-export default app;
+export default storeRouter;
