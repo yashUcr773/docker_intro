@@ -13,4 +13,4 @@ ENV PORT=4000
 CMD ["npm", "run", "dev"]
 
 # docker build -f Dockerfile.express.dev -t express:dev .
-# docker run -p 3000:4000 -v ${pwd}/src:/app/src --network key-value-network express:dev
+# docker run -p 3000:4000 --env-file .env -v ${pwd}/src:/app/src --network key-value-network express:dev
