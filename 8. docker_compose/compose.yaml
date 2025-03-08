@@ -1,6 +1,34 @@
 name: key-value-app
 
 services:
+
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile.express.dev
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    environment:
+      - MONGODB_HOST=db
+      - PORT=3000
+    networks:
+      - mongodb-network
+    depends_on:
+      - db
+    # volumes:
+    #   - type: bind
+    #     source: ./backend/src
+    #     target: /app/src
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/src
+          target: /app/src
+          ignore: 
+            - node_modules
+
   db:
     image: mongodb/mongodb-community-server:7.0-ubuntu2204
     ports:
@@ -37,3 +65,7 @@ networks:
 
 
 # docker run --rm --name debugsb -it --network 8docker_compose_default mongodb/mongodb-community-server:7.0-ubuntu2204 mongosh mongodb://8docker_compose-db-1
+
+# docker compose up --build
+
+# docker compose up --watch

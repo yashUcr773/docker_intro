@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon -L backend/index.ts --watch"
+    "dev": "nodemon -L src/index.ts --watch"
   },
   "keywords": [],
   "author": "",
