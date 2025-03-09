@@ -1,8 +1,8 @@
-name: notebooks-backend
+name: notebooks-app
 
 services:
 
-  backend:
+  notebooks-backend:
     build:
       context: .
       # dockerfile: Dockerfile
@@ -10,7 +10,7 @@ services:
 
     environment:
       - PORT=80
-      - MONGODB_HOST=db
+      - MONGODB_HOST=notebooks-db
     
     env_file:
       - .env
@@ -22,14 +22,14 @@ services:
       - notebooks-network
     
     depends_on:
-      - db
+      - notebooks-db
     
     volumes:
       - type: bind
         source: ./src
         target: /app/src
 
-  db:
+  notebooks-db:
     image: mongodb/mongodb-community-server:7.0-ubuntu2204
 
     env_file:

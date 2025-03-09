@@ -1,0 +1,8 @@
+services:
+  notebooks-backend:
+    networks:
+      - notes-app-network
+  
+  notes-backend:
+    networks:
+      - notes-app-network

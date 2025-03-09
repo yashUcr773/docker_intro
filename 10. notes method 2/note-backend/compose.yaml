@@ -1,15 +1,15 @@
-name: notes-backend
+name: notes-app
 
 services:
 
-  backend:
+  notes-backend:
     build:
       context: .
       dockerfile: Dockerfile
 
     environment:
       - PORT=80
-      - MONGODB_HOST=db
+      - MONGODB_HOST=notes-db
     
     env_file:
       - .env
@@ -21,14 +21,14 @@ services:
       - notes-network
     
     depends_on:
-      - db
+      - notes-db
     
     volumes:
       - type: bind
         source: ./src
         target: /app/src
 
-  db:
+  notes-db:
     image: mongodb/mongodb-community-server:7.0-ubuntu2204
 
     env_file:
