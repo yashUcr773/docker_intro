@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+
+const noteRouter = require('./routes')
+
 require("dotenv").config();
 
 const app = express();
@@ -7,9 +10,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 
-app.get("/api/notes", (req, res) => {
-  res.send("Notes server up11!");
-});
+app.get("/api/notes", noteRouter);
 
 mongoose
   .connect(`mongodb://${process.env.MONGODB_HOST}/${process.env.NOTES_DB}`, {

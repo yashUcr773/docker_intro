@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const notebookRouter = require("./routes");
+
 require("dotenv").config();
 
 const app = express();
@@ -7,9 +9,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 
-app.get("/api/notebooks", (req, res) => {
-  res.send("Notebooks server u111p!");
-});
+app.use("/api/notebooks", notebookRouter);
 
 mongoose
   .connect(
