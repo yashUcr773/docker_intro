@@ -1,0 +1,57 @@
+name: notes-app
+
+services:
+
+    backend-notebooks:
+      build:
+        context: backend-notebooks
+        dockerfile: ./Dockerfile.dev
+      
+      ports:
+        - 3000:3000
+      
+      env_file:
+        - .env
+      
+      environment:
+        - MONGODB_HOST=notes-db
+        - PORT=3000
+      
+      networks:
+        - notes-network
+      
+      depends_on:
+        - notes-db
+      
+      volumes:
+        - type: bind
+          source: ./backend-notebooks/src
+          target: /app/src
+    
+    notes-db:
+      image: mongodb/mongodb-community-server:7.0-ubuntu2204
+
+      ports:
+        - 27017:27017
+      
+      env_file:
+        - .env
+      
+      volumes:
+        - type: bind
+          source: ./db-config/mongo-init.js
+          target: /docker-entrypoint-initdb.d/mongo-init.js
+          read_only: true
+        
+        - type: volume
+          source: notes-app-data
+          target: /data/db
+          
+      networks:
+        - notes-network
+
+volumes:
+  notes-app-data:
+
+networks:
+  notes-network:
