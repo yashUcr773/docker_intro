@@ -5,7 +5,8 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      # dockerfile: Dockerfile
+      target: development
 
     environment:
       - PORT=80
