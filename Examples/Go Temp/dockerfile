@@ -1,0 +1,15 @@
+# Build stage
+FROM golang:1.22 AS builder
+WORKDIR /app
+COPY . .
+RUN go build -o myapp
+
+# Run stage
+FROM debian:bookworm-slim
+WORKDIR /app
+COPY --from=builder /app/myapp .
+COPY . .
+CMD ["./myapp"]
+
+# docker build -t my-go-app .
+# docker run --rm -it my-go-app
